@@ -7,7 +7,7 @@
 }
 
 :root {
-    --bg-primary: #a80404;
+    --bg-primary: #d86363;
     --bg-secondary: #d481c7;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
@@ -67,15 +67,13 @@ nav a:hover {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: var(--white);
-    text-align: center;
-    padding: 4rem var(--spacing);
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 25px;
+    background: linear-gradient(
+        135deg,
+        var(--bg-primary) 0%,
+        var(--bg-secondary) 100%
+    );
+    color: var(--text-primary);
+    padding: 4rem 2rem;
 }
 
 .hero h2 {
