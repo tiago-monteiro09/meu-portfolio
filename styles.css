@@ -19,8 +19,8 @@
 body.dark-mode {
     --bg-primary: #1f2937;
     --bg-secondary: #111827;
-    --text-primary: #f9fafb;
-    --text-secondary: #d1d5db;
+    --text-primary: #ff0000;
+    --text-secondary: #fad608;
     --accent: #818cf8;
     --border: #374151;
 }
