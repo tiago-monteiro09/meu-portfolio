@@ -396,3 +396,52 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProjects(projects);
     console.log('✅ Projetos renderizados!');
 });
+
+// ===== SISTEMA DE FILTROS =====
+
+function filterProjects(category) {
+    // Guardar categoria atual
+    currentCategory = category;
+    
+    let filteredProjects;
+    
+    if (category === 'all') {
+        filteredProjects = projects;
+    } else {
+        filteredProjects = projects.filter(project => project.category === category);
+    }
+    
+    // Re-renderizar com projetos filtrados
+    renderProjects(filteredProjects);
+    
+    console.log(`Filtro aplicado: ${category} (${filteredProjects.length} projetos)`);
+}
+
+// ===== EVENT LISTENERS PARA FILTROS =====
+
+function setupFilterListeners() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remover active de todos
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Adicionar active ao clicado
+            button.classList.add('active');
+            
+            // Obter categoria do data attribute
+            const category = button.dataset.category;
+            
+            // Filtrar projetos
+            filterProjects(category);
+        });
+    });
+}
+
+// Adicionar ao DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    renderProjects(projects);
+    setupFilterListeners();  // ADICIONAR ESTA LINHA
+    console.log('✅ Filtros configurados!');
+});
