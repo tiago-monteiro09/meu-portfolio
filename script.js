@@ -362,287 +362,7 @@ if (resetBtn) {
 
         let currentCategory = 'all';
 
-        // ===== RENDERIZAR PROJETOS =====
-        function renderProjects(projectsToRender) {
-            const grid = document.getElementById('projects-grid');
-            const noResults = document.getElementById('no-results');
-            
-            grid.innerHTML = '';
-            
-            if (projectsToRender.length === 0) {
-                noResults.classList.add('show');
-                return;
-            }
-            
-            noResults.classList.remove('show');
-            
-            projectsToRender.forEach(project => {
-                const card = createProjectCard(project);
-                grid.appendChild(card);
-            });
-        }
-
-        function createProjectCard(project) {
-            const card = document.createElement('div');
-            card.className = 'project-card';
-            card.dataset.id = project.id;
-            card.dataset.category = project.category;
-            
-            card.innerHTML = `
-                <img src="${project.image}" alt="${project.title}">
-                <div class="project-card-body">
-                    <span class="project-category">${project.category}</span>
-                    <h3>${project.title}</h3>
-                    <p class="project-description">${project.description}</p>
-                    <div class="project-tags">
-                        ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-            
-            return card;
-        }
-
-        // ===== FILTROS =====
-        function filterProjects(category) {
-            currentCategory = category;
-            
-            // Limpar pesquisa
-            document.getElementById('search-input').value = '';
-            
-            let filteredProjects;
-            
-            if (category === 'all') {
-                filteredProjects = projects;
-            } else {
-                filteredProjects = projects.filter(project => project.category === category);
-            }
-            
-            renderProjects(filteredProjects);
-            console.log(`Filtro: ${category} (${filteredProjects.length} projetos)`);
-        }
-
-        function setupFilterListeners() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    
-                    const category = button.dataset.category;
-                    filterProjects(category);
-                });
-            });
-        }
-
-        // ===== MODAL =====
-        function openModal(projectId) {
-            const project = projects.find(p => p.id === projectId);
-            
-            if (!project) return;
-            
-            const modalBody = document.getElementById('modal-body');
-            modalBody.innerHTML = `
-                <span class="modal-category">${project.category}</span>
-                <h2>${project.title}</h2>
-                <img src="${project.image}" alt="${project.title}" class="modal-image">
-                
-                <div class="modal-section">
-                    <h3>📖 Sobre o Projeto</h3>
-                    <p>${project.longDescription}</p>
-                </div>
-                
-                <div class="modal-section">
-                    <h3>✨ Funcionalidades</h3>
-                    <ul>
-                        ${project.features.map(feature => `<li>${feature}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="modal-section">
-                    <h3>🛠️ Tecnologias Utilizadas</h3>
-                    <div class="modal-tech">
-                        ${project.technologies.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
-                    </div>
-                </div>
-                
-                <a href="${project.link}" target="_blank" class="modal-link">
-                    Ver Projeto Completo →
-                </a>
-            `;
-            
-            const modal = document.getElementById('project-modal');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            console.log(`Modal aberto: ${project.title}`);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('project-modal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function setupModalListeners() {
-            const grid = document.getElementById('projects-grid');
-            grid.addEventListener('click', (e) => {
-                const card = e.target.closest('.project-card');
-                if (card) {
-                    const projectId = parseInt(card.dataset.id);
-                    openModal(projectId);
-                }
-            });
-            
-            const closeBtn = document.querySelector('.modal-close');
-            closeBtn.addEventListener('click', closeModal);
-            
-            const modal = document.getElementById('project-modal');
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeModal();
-                    const searchInput = document.getElementById('search-input');
-                    if (searchInput.value) {
-                        searchInput.value = '';
-                        searchProjects('');
-                    }
-                }
-            });
-        }
-
-        // ===== PESQUISA =====
-        function searchProjects(query) {
-            const searchTerm = query.toLowerCase().trim();
-            
-            if (searchTerm === '') {
-                filterProjects(currentCategory);
-                return;
-            }
-            
-            let baseProjects = currentCategory === 'all' 
-                ? projects 
-                : projects.filter(p => p.category === currentCategory);
-            
-            const results = baseProjects.filter(project => {
-                const titleMatch = project.title.toLowerCase().includes(searchTerm);
-                const descMatch = project.description.toLowerCase().includes(searchTerm);
-                const tagsMatch = project.tags.some(tag => 
-                    tag.toLowerCase().includes(searchTerm)
-                );
-                
-                return titleMatch || descMatch || tagsMatch;
-            });
-            
-            renderProjects(results);
-            console.log(`Pesquisa: "${query}" - ${results.length} resultados`);
-        }
-
-        function debounce(func, delay) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), delay);
-            };
-        }
-
-        function setupSearchListener() {
-            const searchInput = document.getElementById('search-input');
-            const debouncedSearch = debounce(searchProjects, 300);
-            
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value;
-                debouncedSearch(query);
-            });
-        }
-
-        // ===== INICIALIZAÇÃO =====
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 Demo Sessão 3 carregada!');
-            console.log('👉 Experimenta filtros, pesquisa e clica nos cards!');
-            
-            renderProjects(projects);
-            setupFilterListeners();
-            setupModalListeners();
-            setupSearchListener();
-        });
-  
-// ===== RENDERIZAR PROJETOS =====
-
-function renderProjects(projectsToRender) {
-    const grid = document.getElementById('projects-grid');
-    const noResults = document.getElementById('no-results');
-    
-    // Limpar grid
-    grid.innerHTML = '';
-    
-    // Se não há projetos, mostrar mensagem
-    if (projectsToRender.length === 0) {
-        noResults.style.display = 'block';
-        return;
-    }
-    
-    noResults.style.display = 'none';
-    
-    // Criar card para cada projeto
-    projectsToRender.forEach(project => {
-        const card = createProjectCard(project);
-        grid.appendChild(card);
-    });
-    
-    // Atualizar contadores
-    updateCounters();
-}
-
-// Criar HTML de um card
-function createProjectCard(project) {
-    const card = document.createElement('div');
-    card.className = 'project-card';
-    card.dataset.id = project.id;
-    card.dataset.category = project.category;
-    
-    // Template string com HTML do card
-    card.innerHTML = `
-        <img src="${project.image}" alt="${project.title}">
-        <div class="project-card-body">
-            <span class="project-category">${project.category}</span>
-            <h3>${project.title}</h3>
-            <p class="project-description">${project.description}</p>
-            <div class="project-tags">
-                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-            </div>
-        </div>
-    `;
-    
-    return card;
-}
-
-// Atualizar números nos botões de filtro
-function updateCounters() {
-    const allCount = projects.length;
-    const webCount = projects.filter(p => p.category === 'web').length;
-    const mobileCount = projects.filter(p => p.category === 'mobile').length;
-    const designCount = projects.filter(p => p.category === 'design').length;
-    
-    document.querySelector('[data-category="all"] .count').textContent = allCount;
-    document.querySelector('[data-category="web"] .count').textContent = webCount;
-    document.querySelector('[data-category="mobile"] .count').textContent = mobileCount;
-    document.querySelector('[data-category="design"] .count').textContent = designCount;
-}
-
-// Inicializar ao carregar página
-document.addEventListener('DOMContentLoaded', () => {
-    renderProjects(projects);
-    console.log('✅ Projetos renderizados!');
-});
-
-// ===== SISTEMA DE FILTROS =====
+        // ===== SISTEMA DE FILTROS =====
 
 function filterProjects(category) {
     // Guardar categoria atual
@@ -690,3 +410,201 @@ document.addEventListener('DOMContentLoaded', () => {
     setupFilterListeners();  // ADICIONAR ESTA LINHA
     console.log('✅ Filtros configurados!');
 });
+
+// ===== SISTEMA DE MODAL =====
+
+function openModal(projectId) {
+    // Encontrar projeto pelo ID
+    const project = projects.find(p => p.id === projectId);
+    
+    if (!project) {
+        console.error('Projeto não encontrado!');
+        return;
+    }
+    
+    // Preencher conteúdo do modal
+    const modalBody = document.getElementById('modal-body');
+    modalBody.innerHTML = `
+        <span class="modal-category">${project.category}</span>
+        <h2>${project.title}</h2>
+        <img src="${project.image}" alt="${project.title}" class="modal-image">
+        
+        <div class="modal-section">
+            <h3>Sobre o Projeto</h3>
+            <p>${project.longDescription}</p>
+        </div>
+        
+        <div class="modal-section">
+            <h3>Funcionalidades</h3>
+            <ul>
+                ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+            </ul>
+        </div>
+        
+        <div class="modal-section">
+            <h3>Tecnologias Utilizadas</h3>
+            <div class="modal-tech">
+                ${project.technologies.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
+            </div>
+        </div>
+        
+        <a href="${project.link}" target="_blank" class="modal-link">
+            Ver Projeto Completo →
+        </a>
+    `;
+    
+    // Mostrar modal
+    const modal = document.getElementById('project-modal');
+    modal.classList.add('active');
+    
+    // Prevenir scroll do body
+    document.body.style.overflow = 'hidden';
+    
+    console.log(`Modal aberto: ${project.title}`);
+}
+
+function closeModal() {
+    const modal = document.getElementById('project-modal');
+    modal.classList.remove('active');
+    
+    // Restaurar scroll
+    document.body.style.overflow = 'auto';
+    
+    console.log('Modal fechado');
+}
+
+// ===== EVENT LISTENERS DO MODAL =====
+
+function setupModalListeners() {
+    // Event Delegation nos cards
+    const grid = document.getElementById('projects-grid');
+    grid.addEventListener('click', (e) => {
+        const card = e.target.closest('.project-card');
+        if (card) {
+            const projectId = parseInt(card.dataset.id);
+            openModal(projectId);
+        }
+    });
+    
+    // Fechar modal ao clicar no X
+    const closeBtn = document.querySelector('.modal-close');
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Fechar modal ao clicar fora (no overlay)
+    const modal = document.getElementById('project-modal');
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Fechar modal com tecla Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+}
+
+// Adicionar ao DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    renderProjects(projects);
+    setupFilterListeners();
+    setupModalListeners();  // ADICIONAR ESTA LINHA
+    console.log('✅ Modal configurado!');
+});
+// ===== SISTEMA DE PESQUISA =====
+
+function searchProjects(query) {
+    // Converter query para lowercase
+    const searchTerm = query.toLowerCase().trim();
+    
+    // Se pesquisa vazia, mostrar todos (respeitando filtro categoria)
+    if (searchTerm === '') {
+        filterProjects(currentCategory);
+        return;
+    }
+    
+    // Começar com projetos da categoria atual
+    let baseProjects = currentCategory === 'all' 
+        ? projects 
+        : projects.filter(p => p.category === currentCategory);
+    
+    // Filtrar por termo de pesquisa
+    const results = baseProjects.filter(project => {
+        // Procurar em múltiplos campos
+        const titleMatch = project.title.toLowerCase().includes(searchTerm);
+        const descMatch = project.description.toLowerCase().includes(searchTerm);
+        const tagsMatch = project.tags.some(tag => 
+            tag.toLowerCase().includes(searchTerm)
+        );
+        
+        return titleMatch || descMatch || tagsMatch;
+    });
+    
+    // Renderizar resultados
+    renderProjects(results);
+    
+    console.log(`Pesquisa: "${query}" - ${results.length} resultados`);
+}
+
+// ===== EVENT LISTENER PARA PESQUISA =====
+
+function setupSearchListener() {
+    const searchInput = document.getElementById('search-input');
+    
+    // Event 'input' dispara a cada tecla pressionada
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        searchProjects(query);
+    });
+    
+    // Limpar pesquisa com Escape
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            searchProjects('');
+            searchInput.blur();
+        }
+    });
+}
+
+// Adicionar ao DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    renderProjects(projects);
+    setupFilterListeners();
+    setupModalListeners();
+    setupSearchListener();  // ADICIONAR ESTA LINHA
+    console.log('✅ Pesquisa configurada!');
+});
+
+// ===== DEBOUNCE PARA PESQUISA =====
+
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Criar versão debounced da pesquisa
+const debouncedSearch = debounce(searchProjects, 300);
+
+function setupSearchListener() {
+    const searchInput = document.getElementById('search-input');
+    
+    // Usar versão debounced
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        debouncedSearch(query);
+    });
+    
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            searchProjects('');
+            searchInput.blur();
+        }
+    });
+}
