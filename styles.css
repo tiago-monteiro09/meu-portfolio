@@ -8,11 +8,11 @@
 :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
+            --secondary: #ffffff;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --dark: #000000;
+            --dark: #242222b6;
             --light: #f3f4f6;
             --white: #ffffff;
             --border: #e5e7eb;
@@ -223,7 +223,7 @@ body.dark-mode .icon-light {
 
 .format-toggle:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 10px rgba(119, 120, 218, 0.493);
 }
 
 .visit-counter {
@@ -658,4 +658,3 @@ body.dark-mode .icon-light {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-10px); }
     75% { transform: translateX(10px); }
-}

@@ -243,126 +243,161 @@ if (resetBtn) {
 }
 
 // ===== DADOS DOS PROJETOS =====
-        const projects = [
-            {
-                id: 1,
-                title: 'E-commerce Website',
-                category: 'web',
-                description: 'Loja online completa com carrinho de compras e sistema de pagamento',
-                image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=500&h=300&fit=crop',
-                tags: ['HTML', 'CSS', 'JavaScript', 'API'],
-                link: 'https://github.com/',
-                longDescription: 'Website de e-commerce completo com sistema de carrinho, checkout, e integração com API de pagamentos. Interface moderna e totalmente responsiva com experiência de utilizador optimizada.',
-                features: [
-                    'Carrinho de compras dinâmico',
-                    'Sistema de pagamento integrado',
-                    'Área de utilizador personalizada',
-                    'Gestão completa de produtos',
-                    'Sistema de avaliações'
-                ],
-                technologies: ['HTML5', 'CSS3', 'JavaScript ES6+', 'LocalStorage', 'Fetch API', 'Stripe'],
-                date: '2025-01'
-            },
-            {
-                id: 2,
-                title: 'App de Tarefas',
-                category: 'web',
-                description: 'Gestor de tarefas produtivo com filtros, categorias e prioridades',
-                image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=500&h=300&fit=crop',
-                tags: ['React', 'CSS', 'LocalStorage'],
-                link: 'https://github.com/',
-                longDescription: 'Aplicação de gestão de tarefas intuitiva com sistema completo de prioridades, categorias customizáveis e persistência local. Interface minimalista e focada em produtividade.',
-                features: [
-                    'Adicionar, editar e remover tarefas',
-                    'Sistema de prioridades (Alta, Média, Baixa)',
-                    'Filtros por estado e categoria',
-                    'Persistência de dados local',
-                    'Estatísticas de produtividade'
-                ],
-                technologies: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage', 'Drag & Drop API'],
-                date: '2024-12'
-            },
-            {
-                id: 3,
-                title: 'Portfolio Designer',
-                category: 'design',
-                description: 'Portfolio criativo e minimalista para designer gráfico',
-                image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=300&fit=crop',
-                tags: ['Figma', 'UI/UX', 'Protótipo'],
-                link: 'https://figma.com/',
-                longDescription: 'Design de portfolio minimalista e elegante focado em apresentar trabalhos criativos. Interface limpa com foco total nas peças de design apresentadas.',
-                features: [
-                    'Design system completo',
-                    'Layouts responsivos para todas as resoluções',
-                    'Animações suaves e profissionais',
-                    'Galeria de trabalhos com filtros',
-                    'Formulário de contacto elegante'
-                ],
-                technologies: ['Figma', 'Design System', 'Prototyping', 'Auto Layout', 'Components'],
-                date: '2024-11'
-            },
-            {
-                id: 4,
-                title: 'App Meteorologia',
-                category: 'mobile',
-                description: 'Aplicação mobile para consultar previsão do tempo em tempo real',
-                image: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=500&h=300&fit=crop',
-                tags: ['React Native', 'API', 'Mobile'],
-                link: 'https://github.com/',
-                longDescription: 'Aplicação mobile nativa para iOS e Android que fornece previsão meteorológica detalhada com dados em tempo real de múltiplas fontes.',
-                features: [
-                    'Previsão detalhada para 7 dias',
-                    'Localização automática por GPS',
-                    'Alertas meteorológicos em tempo real',
-                    'Múltiplas localizações favoritas',
-                    'Gráficos interativos de temperatura'
-                ],
-                technologies: ['React Native', 'Weather API', 'Geolocation', 'Push Notifications', 'Charts'],
-                date: '2025-01'
-            },
-            {
-                id: 5,
-                title: 'Dashboard Analytics',
-                category: 'web',
-                description: 'Dashboard empresarial com gráficos interativos e estatísticas em tempo real',
-                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop',
-                tags: ['Vue.js', 'Charts', 'API'],
-                link: 'https://github.com/',
-                longDescription: 'Dashboard interativo completo para visualização de dados empresariais e analytics com gráficos dinâmicos e actualizações em tempo real.',
-                features: [
-                    'Gráficos interativos e customizáveis',
-                    'Filtros avançados por período',
-                    'Exportação de relatórios (PDF/Excel)',
-                    'Dados em tempo real via WebSockets',
-                    'Sistema de notificações'
-                ],
-                technologies: ['HTML5', 'CSS3', 'JavaScript', 'Chart.js', 'REST API', 'WebSockets'],
-                date: '2024-10'
-            },
-            {
-                id: 6,
-                title: 'Redesign Logo Empresa',
-                category: 'design',
-                description: 'Redesign completo de identidade visual corporativa moderna',
-                image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500&h=300&fit=crop',
-                tags: ['Illustrator', 'Branding', 'Logo'],
-                link: 'https://behance.net/',
-                longDescription: 'Projeto completo de redesign de identidade visual incluindo logo principal, variações, paleta de cores moderna e manual de marca detalhado.',
-                features: [
-                    'Logo principal e variações',
-                    'Paleta de cores moderna e versátil',
-                    'Tipografia corporativa',
-                    'Manual de marca completo (50+ páginas)',
-                    'Mockups profissionais'
-                ],
-                technologies: ['Adobe Illustrator', 'Photoshop', 'InDesign', 'After Effects'],
-                date: '2024-09'
-            }
-        ];
 
-        let currentCategory = 'all';
+const projects = [
+    {
+        id: 1,
+        title: 'E-commerce Website',
+        category: 'web',
+        description: 'Loja online completa com carrinho de compras',
+        image: 'https://www.360imprimir.pt/mini-recipiente-carrinho-de-compras-cromado-aco?srsltid=AfmBOor2M_yV3CKWshXjUEO20VNoKFYWBPEsKZBtsIk9P0W7oK6HAIOq',
+        tags: ['HTML', 'CSS', 'JavaScript', 'API'],
+        link: 'https://github.com/...',
+        longDescription: 'Website de e-commerce completo com sistema de carrinho, checkout, e integração com API de pagamentos. Interface moderna e responsiva.',
+        features: ['Carrinho de compras', 'Sistema de pagamento', 'Área de utilizador', 'Gestão de produtos'],
+        technologies: ['HTML5', 'CSS3', 'JavaScript ES6+', 'LocalStorage', 'Fetch API'],
+        date: '2025-01'
+    },
+    {
+        id: 2,
+        title: 'App de Tarefas',
+        category: 'web',
+        description: 'Gestor de tarefas com filtros e categorias',
+        image: 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Todo+App',
+        tags: ['React', 'CSS', 'LocalStorage'],
+        link: 'https://github.com/...',
+        longDescription: 'Aplicação de gestão de tarefas com sistema de prioridades, categorias e persistência local.',
+        features: ['Adicionar/editar/remover tarefas', 'Filtros por estado', 'Categorias', 'Persistência de dados'],
+        technologies: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage'],
+        date: '2024-12'
+    },
+    {
+        id: 3,
+        title: 'Portfolio Designer',
+        category: 'design',
+        description: 'Portfolio criativo para designer gráfico',
+        image: 'https://via.placeholder.com/400x300/10b981/ffffff?text=Portfolio',
+        tags: ['Figma', 'UI/UX', 'Protótipo'],
+        link: 'https://figma.com/...',
+        longDescription: 'Design de portfolio minimalista e elegante para apresentar trabalhos criativos.',
+        features: ['Design responsivo', 'Animações suaves', 'Galeria de trabalhos', 'Formulário de contacto'],
+        technologies: ['Figma', 'Design System', 'Prototyping'],
+        date: '2024-11'
+    },
+    {
+        id: 4,
+        title: 'App Meteorologia',
+        category: 'mobile',
+        description: 'App mobile para consultar previsão do tempo',
+        image: 'https://via.placeholder.com/400x300/f59e0b/ffffff?text=Weather+App',
+        tags: ['React Native', 'API', 'Mobile'],
+        link: 'https://github.com/...',
+        longDescription: 'Aplicação mobile para consultar previsão meteorológica com dados em tempo real.',
+        features: ['Previsão 7 dias', 'Localização automática', 'Alertas meteorológicos', 'Favoritos'],
+        technologies: ['React Native', 'Weather API', 'Geolocation'],
+        date: '2025-01'
+    },
+    {
+        id: 5,
+        title: 'Dashboard Analytics',
+        category: 'web',
+        description: 'Dashboard com gráficos e estatísticas',
+        image: 'https://via.placeholder.com/400x300/ef4444/ffffff?text=Dashboard',
+        tags: ['Vue.js', 'Charts', 'API'],
+        link: 'https://github.com/...',
+        longDescription: 'Dashboard interativo para visualização de dados e analytics com gráficos dinâmicos.',
+        features: ['Gráficos interativos', 'Filtros de data', 'Exportar relatórios', 'Tempo real'],
+        technologies: ['HTML5', 'CSS3', 'JavaScript', 'Chart.js', 'API'],
+        date: '2024-10'
+    },
+    {
+        id: 6,
+        title: 'Redesign Logo Empresa',
+        category: 'design',
+        description: 'Redesign de identidade visual corporativa',
+        image: 'https://via.placeholder.com/400x300/ec4899/ffffff?text=Logo+Design',
+        tags: ['Illustrator', 'Branding', 'Logo'],
+        link: 'https://behance.net/...',
+        longDescription: 'Projeto de redesign completo de identidade visual incluindo logo, cores e tipografia.',
+        features: ['Logo principal', 'Variações', 'Manual de marca', 'Mockups'],
+        technologies: ['Adobe Illustrator', 'Photoshop', 'InDesign'],
+        date: '2024-09'
+    }
+];
 
-        // ===== SISTEMA DE FILTROS =====
+// Variável global para controlar filtro atual
+let currentCategory = 'all';
+
+// ===== RENDERIZAR PROJETOS =====
+
+function renderProjects(projectsToRender) {
+    const grid = document.getElementById('projects-grid');
+    const noResults = document.getElementById('no-results');
+    
+    // Limpar grid
+    grid.innerHTML = '';
+    
+    // Se não há projetos, mostrar mensagem
+    if (projectsToRender.length === 0) {
+        noResults.style.display = 'block';
+        return;
+    }
+    
+    noResults.style.display = 'none';
+    
+    // Criar card para cada projeto
+    projectsToRender.forEach(project => {
+        const card = createProjectCard(project);
+        grid.appendChild(card);
+    });
+    
+    // Atualizar contadores
+    updateCounters();
+}
+
+// Criar HTML de um card
+function createProjectCard(project) {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.dataset.id = project.id;
+    card.dataset.category = project.category;
+    
+    // Template string com HTML do card
+    card.innerHTML = `
+        <img src="${project.image}" alt="${project.title}">
+        <div class="project-card-body">
+            <span class="project-category">${project.category}</span>
+            <h3>${project.title}</h3>
+            <p class="project-description">${project.description}</p>
+            <div class="project-tags">
+                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+// Atualizar números nos botões de filtro
+function updateCounters() {
+    const allCount = projects.length;
+    const webCount = projects.filter(p => p.category === 'web').length;
+    const mobileCount = projects.filter(p => p.category === 'mobile').length;
+    const designCount = projects.filter(p => p.category === 'design').length;
+    
+    document.querySelector('[data-category="all"] .count').textContent = allCount;
+    document.querySelector('[data-category="web"] .count').textContent = webCount;
+    document.querySelector('[data-category="mobile"] .count').textContent = mobileCount;
+    document.querySelector('[data-category="design"] .count').textContent = designCount;
+}
+
+// Inicializar ao carregar página
+document.addEventListener('DOMContentLoaded', () => {
+    renderProjects(projects);
+    console.log('✅ Projetos renderizados!');
+});
+
+// ===== SISTEMA DE FILTROS =====
 
 function filterProjects(category) {
     // Guardar categoria atual
@@ -513,6 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModalListeners();  // ADICIONAR ESTA LINHA
     console.log('✅ Modal configurado!');
 });
+
 // ===== SISTEMA DE PESQUISA =====
 
 function searchProjects(query) {
@@ -577,34 +613,3 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSearchListener();  // ADICIONAR ESTA LINHA
     console.log('✅ Pesquisa configurada!');
 });
-
-// ===== DEBOUNCE PARA PESQUISA =====
-
-function debounce(func, delay) {
-    let timeout;
-    return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-    };
-}
-
-// Criar versão debounced da pesquisa
-const debouncedSearch = debounce(searchProjects, 300);
-
-function setupSearchListener() {
-    const searchInput = document.getElementById('search-input');
-    
-    // Usar versão debounced
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value;
-        debouncedSearch(query);
-    });
-    
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            searchInput.value = '';
-            searchProjects('');
-            searchInput.blur();
-        }
-    });
-}
