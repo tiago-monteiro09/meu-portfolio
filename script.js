@@ -1,5 +1,26 @@
 // ===== DARK MODE TOGGLE =====
 
+// ===== FUNÇÕES FOCADAS =====
+ 
+// 1. Obter ano atual
+function getCurrentYear() {
+    return new Date().getFullYear();
+}
+ 
+// 2. Atualizar elemento do DOM
+function updateElement(selector, content) {
+    const element = document.querySelector(selector);
+    if (element) {
+        element.textContent = content;
+    }
+}
+ 
+// 3. Atualizar ano no footer
+function updateFooterYear() {
+    const year = getCurrentYear();
+    updateElement('#year', year);
+}
+
 // 1. Função para alternar tema
 function toggleTheme() {
     // Adiciona/remove classe dark-mode do body
@@ -201,6 +222,12 @@ function initVisitCounter() {
 
 // 7. Executar quando página carrega
 document.addEventListener('DOMContentLoaded', () => {
+    getCurrentYear();
+
+    updateElement('#year', getCurrentYear());
+
+    updateFooterYear();
+
     initVisitCounter();
 
     loadSavedTheme();
@@ -601,6 +628,22 @@ function searchProjects(query) {
     console.log(`Pesquisa: "${query}" - ${results.length} resultados`);
 }
 
+
+
+// ===== DEBOUNCE PARA PESQUISA =====
+ 
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+ 
+// Criar versão debounced da pesquisa
+const debouncedSearch = debounce(searchProjects, 300);
+
+
 // ===== EVENT LISTENER PARA PESQUISA =====
 
 function setupSearchListener() {
@@ -819,7 +862,7 @@ function setupCharCounter() {
 
 function showToast(type, title, message, duration = 3000) {
     const container = document.getElementById('toast-container');
-    
+   
     // Ícones por tipo
     const icons = {
         success: '✅',
@@ -827,37 +870,30 @@ function showToast(type, title, message, duration = 3000) {
         warning: '⚠️',
         info: 'ℹ️'
     };
-    
+   
     // Criar toast
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
+    toast.innerHTML =
     toast.innerHTML = `
-        
-${icons[type]}
-
-        
-
-            
-${title}
-
-            
-${message}
-
-        
-
-        ×
-    `;
-    
+    <div class="toast-icon">${icons[type]}</div>
+    <div class="toast-content">
+        <strong>${title}</strong>
+        <p>${message}</p>
+    </div>
+    <span class="toast-close">×</span>`;
+ 
+   
     // Adicionar ao container
     container.appendChild(toast);
-    
+   
     // Close button
     const closeBtn = toast.querySelector('.toast-close');
     closeBtn.addEventListener('click', () => {
         toast.style.animation = 'fadeOut 0.4s ease forwards';
         setTimeout(() => toast.remove(), 400);
     });
-    
+   
     // Auto-remove após duration
     setTimeout(() => {
         if (toast.parentElement) {
@@ -865,7 +901,7 @@ ${message}
             setTimeout(() => toast.remove(), 400);
         }
     }, duration);
-    
+   
     console.log(`Toast ${type}: ${title}`);
 }
 
@@ -878,47 +914,40 @@ function setupFormSubmit() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Validar form final
         if (!validateForm()) {
-            showToast('error', 'Erro!', 'Por favor, corrige os erros no formulário');
+            showToast('error', 'Erro!', 'Por favor, corrige os erros');
             return;
         }
         
-        // Desativar botão e mostrar loading
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
         
-        // Simular envio (depois vamos guardar em localStorage)
         try {
-            // Simular delay de rede
             await new Promise(resolve => setTimeout(resolve, 1500));
             
-            // Sucesso!
+            // Guardar mensagem
+            const formData = new FormData(form);
+            saveMessage(formData);
+            
             showToast(
                 'success',
                 'Mensagem Enviada!',
                 'Obrigado pelo contacto. Respondo em breve!'
             );
             
-            // Limpar formulário
             form.reset();
             
-            // Remover estados de validação
-            document.querySelectorAll('.form-group').forEach(group => {
-                group.classList.remove('valid', 'invalid');
+            // Clear validation feedback
+            const fields = ['name', 'email', 'subject', 'message'];
+            fields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                const formGroup = field.closest('.form-group');
+                formGroup.classList.remove('valid', 'invalid');
             });
             
-            // Resetar contador
-            document.getElementById('char-count').textContent = '0';
-            
         } catch (error) {
-            showToast(
-                'error',
-                'Erro ao Enviar',
-                'Ocorreu um erro. Tenta novamente.'
-            );
+            showToast('error', 'Erro ao Enviar', 'Tenta novamente.');
         } finally {
-            // Reativar botão e remover loading
             submitBtn.disabled = false;
             submitBtn.classList.remove('loading');
         }
@@ -955,41 +984,7 @@ function saveMessage(formData) {
     return message;
 }
 
-// Atualizar função de submit
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-        showToast('error', 'Erro!', 'Por favor, corrige os erros');
-        return;
-    }
-    
-    submitBtn.disabled = true;
-    submitBtn.classList.add('loading');
-    
-    try {
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // ADICIONAR: Guardar mensagem
-        const formData = new FormData(form);
-        saveMessage(formData);
-        
-        showToast(
-            'success',
-            'Mensagem Enviada!',
-            'Obrigado pelo contacto. Respondo em breve!'
-        );
-        
-        form.reset();
-        // ... resto do código
-        
-    } catch (error) {
-        showToast('error', 'Erro ao Enviar', 'Tenta novamente.');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('loading');
-    }
-});
+
 
 // ===== ADMIN VIEW =====
 

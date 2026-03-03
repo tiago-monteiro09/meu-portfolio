@@ -326,7 +326,8 @@ footer {
 .filter-btn {
     padding: 10px 20px;
     border: 2px solid var(--border);
-    background: white;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     border-radius: 25px;
     cursor: pointer;
     font-weight: 600;
@@ -345,11 +346,12 @@ footer {
 }
  
 .filter-btn .count {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0.15);
     padding: 2px 8px;
     border-radius: 10px;
     font-size: 0.85em;
     margin-left: 5px;
+    color: var(--text-primary);
 }
  
 .filter-btn.active .count {
@@ -364,11 +366,18 @@ footer {
     width: 300px;
     font-size: 1em;
     transition: border-color 0.3s;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.search-box input::placeholder {
+    color: var(--gray);
 }
  
 .search-box input:focus {
     outline: none;
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
  
 /* Grid de Projetos */
@@ -743,7 +752,8 @@ footer {
 
 /* Form Styling */
 .contact-form {
-    background: white;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
@@ -778,7 +788,13 @@ footer {
     font-size: 1em;
     font-family: inherit;
     transition: all 0.3s;
-    background: white;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--gray);
 }
 
 .form-group input:focus,
@@ -912,7 +928,8 @@ footer {
 
 /* Contact Info */
 .contact-info {
-    background: white;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
@@ -921,6 +938,18 @@ footer {
 .contact-info h3 {
     color: var(--primary);
     margin-bottom: 25px;
+}
+
+/* #706e6e;
+   #3f2727 */
+
+.dark-mode .contact-info h3 {
+    color: var(--text-primary);
+    margin-bottom: 25px;
+}
+
+.dark-mode .info-item span {
+    color: var(--text-primary);
 }
 
 .info-item {
@@ -963,6 +992,151 @@ footer {
     transform: translateY(-2px);
 }
 
+/* ===== COMPREHENSIVE DARK MODE OVERRIDES ===== */
+
+/* Contact Section */
+.dark-mode .contact {
+    background: var(--bg-primary);
+}
+
+.dark-mode .section-header h2 {
+    color: var(--text-primary);
+}
+
+/* Clock Section */
+.dark-mode .clock {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.dark-mode .clock span {
+    color: var(--text-primary);
+}
+
+/* Visit Counter */
+.dark-mode .visit-counter {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.dark-mode .visit-counter p {
+    color: var(--text-primary);
+}
+
+.dark-mode .visit-counter strong {
+    color: var(--accent-2);
+}
+
+.dark-mode .last-visit {
+    color: var(--text-secondary);
+}
+
+.dark-mode .reset-btn {
+    background: var(--danger);
+    color: white;
+}
+
+/* Filter Buttons and Search */
+.dark-mode .filter-btn {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.dark-mode .filter-btn:hover {
+    border-color: var(--secondary);
+}
+
+.dark-mode .filter-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.dark-mode .filter-btn .count {
+    background: rgba(255,255,255,0.15);
+    color: var(--text-primary);
+}
+
+.dark-mode .search-box input {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.dark-mode .search-box input::placeholder {
+    color: var(--gray);
+}
+
+/* Form Elements */
+.dark-mode .form-group label {
+    color: var(--text-primary);
+}
+
+.dark-mode .form-group input,
+.dark-mode .form-group select,
+.dark-mode .form-group textarea {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.dark-mode .form-group input::placeholder,
+.dark-mode .form-group textarea::placeholder {
+    color: var(--gray);
+}
+
+.dark-mode .form-group input:focus,
+.dark-mode .form-group select:focus,
+.dark-mode .form-group textarea:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 4px rgba(145, 226, 236, 0.15);
+}
+
+.dark-mode .char-counter {
+    color: var(--gray);
+}
+
+.dark-mode .char-counter.warning {
+    color: #fbbf24;
+}
+
+.dark-mode .char-counter.error {
+    color: var(--danger);
+}
+
+/* Submit Button */
+.dark-mode .submit-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+/* Contact Info */
+.dark-mode .contact-info {
+    background: var(--bg-secondary);
+    border-color: var(--border);
+}
+
+.dark-mode .info-item {
+    border-bottom-color: var(--border);
+}
+
+.dark-mode .info-item .icon {
+    color: var(--text-primary);
+}
+
+.dark-mode .social-links a {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.dark-mode .social-links a:hover {
+    background: var(--primary);
+    color: white;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .contact-container {
@@ -988,7 +1162,8 @@ footer {
 }
 
 .toast {
-    background: white;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     padding: 20px 25px;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -1083,4 +1258,184 @@ footer {
         min-width: auto;
         max-width: none;
     }
+}
+
+/* Admin Messages Section */
+.admin-messages {
+    padding: 60px 20px;
+    background: var(--light);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+ 
+.admin-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+ 
+.message-count {
+    color: var(--gray);
+}
+ 
+.btn-danger {
+    background: var(--danger);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+ 
+.btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+ 
+/* Messages List */
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+ 
+.message-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+ 
+.message-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+ 
+.message-card.unread {
+    border-left: 4px solid var(--primary);
+}
+ 
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+ 
+.message-sender h4 {
+    color: var(--dark);
+    margin-bottom: 5px;
+}
+ 
+.message-sender p {
+    color: var(--gray);
+    font-size: 0.9em;
+}
+ 
+.message-meta {
+    text-align: right;
+    font-size: 0.85em;
+    color: var(--gray);
+}
+ 
+.message-subject {
+    background: var(--primary);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+ 
+.message-body {
+    color: var(--dark);
+    line-height: 1.6;
+    padding: 15px;
+    background: var(--light);
+    border-radius: 10px;
+}
+ 
+.message-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+ 
+.message-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+ 
+.btn-delete {
+    background: var(--danger);
+    color: white;
+}
+ 
+.btn-delete:hover {
+    background: #dc2626;
+}
+ 
+/* Toggle Admin Button */
+.toggle-admin {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    font-size: 1.8em;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    transition: all 0.3s;
+    z-index: 999;
+}
+ 
+.toggle-admin:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+}
+ 
+.toggle-admin .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5em;
+    font-weight: 700;
+}
+ 
+.no-messages {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gray);
+    font-size: 1.2em;
 }
