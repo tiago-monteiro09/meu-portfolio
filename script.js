@@ -56,52 +56,6 @@ function loadSavedTheme() {
 
 // 4. Executar quando página carrega
 
-// ===== RELÓGIO DIGITAL =====
-
-// Variável global para formato (true = 24h, false = 12h)
-let is24Hour = true;
-
-// 1. Função para atualizar o relógio
-function updateClock() {
-    // Obter hora atual
-    const now = new Date();
-    
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    
-    // Converter para 12h se necessário
-    if (!is24Hour) {
-        hours = hours % 12 || 12; // 0 vira 12
-    }
-    
-    // Adicionar zero à esquerda se < 10
-    hours = String(hours).padStart(2, '0');
-    minutes = String(minutes).padStart(2, '0');
-    seconds = String(seconds).padStart(2, '0');
-    
-    // Atualizar DOM
-    document.getElementById('hours').textContent = hours;
-    document.getElementById('minutes').textContent = minutes;
-    document.getElementById('seconds').textContent = seconds;
-}
-
-// 2. Variável para guardar o intervalo
-let clockInterval;
-
-// 3. Função para iniciar o relógio
-function startClock() {
-    // Atualizar imediatamente
-    updateClock();
-    
-    // Atualizar a cada 1000ms (1 segundo)
-    clockInterval = setInterval(updateClock, 1000);
-    
-    console.log('⏰ Relógio iniciado!');
-}
-
-// 4. Iniciar quando página carrega
-
 
 // 5. Função para alternar formato
 function toggleFormat() {
@@ -130,6 +84,38 @@ function loadClockFormat() {
     }
 }
 
+// ===== RELÓGIO =====
+
+let is24Hour = false;
+
+function updateClock() {
+    const clockElement = document.querySelector('.clock');
+    if (!clockElement) return;
+    
+    const now = new Date();
+    
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    // Converter para 12h se necessário
+    let period = '';
+    if (!is24Hour) {
+        period = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+    }
+    
+    hours = String(hours).padStart(2, '0');
+    
+    clockElement.innerHTML = `<span>${hours}:${minutes}:${seconds}${period ? ' ' + period : ''}</span>`;
+}
+
+function startClock() {
+    updateClock();
+    // Atualizar a cada 1000ms (1 segundo)
+    setInterval(updateClock, 1000);
+    console.log('⏰ Relógio iniciado!');
+}
 
 // ===== CONTADOR DE VISITAS =====
 
@@ -220,60 +206,6 @@ function initVisitCounter() {
     console.log('📊 Contador de visitas inicializado!');
 }
 
-// 7. Executar quando página carrega
-document.addEventListener('DOMContentLoaded', () => {
-    getCurrentYear();
-
-    updateElement('#year', getCurrentYear());
-
-    updateFooterYear();
-
-    initVisitCounter();
-
-    loadSavedTheme();
-
-    startClock();
-
-    loadClockFormat();
-    startClock();
-
-    renderProjects(projects);
-    console.log('✅ Projetos renderizados!');
-
-    renderProjects(projects);
-    setupFilterListeners();  // ADICIONAR ESTA LINHA
-    console.log('✅ Filtros configurados!');
-
-
-    
-    renderProjects(projects);
-    setupFilterListeners();
-    setupModalListeners();  // ADICIONAR ESTA LINHA
-    console.log('✅ Modal configurado!');
-
-        renderProjects(projects);
-    setupFilterListeners();
-    setupModalListeners();
-    setupSearchListener();  // ADICIONAR ESTA LINHA
-    console.log('✅ Pesquisa configurada!');
-
-    setupFormValidation();
-    console.log('✅ Validação configurada');
-
-       setupFormValidation();
-    setupCharCounter();
-    console.log('✅ Contador de caracteres ativo');
-
-        setupFormValidation();
-    setupCharCounter();
-    setupFormSubmit();
-    console.log('✅ Form submit configurado');
-
-        setupAdminToggle();
-    loadMessages(); // Carregar contador inicial
-    console.log('✅ Admin view configurada');
-    // ... outras inicializações
-});
 
 // 8. Função para resetar contador
 function resetVisitCounter() {
@@ -344,45 +276,7 @@ const projects = [
         technologies: ['Figma', 'Design System', 'Prototyping'],
         date: '2024-11'
     },
-    {
-        id: 4,
-        title: 'App Meteorologia',
-        category: 'mobile',
-        description: 'App mobile para consultar previsão do tempo',
-        image: 'imagens/ipma.png',
-        tags: ['React Native', 'API', 'Mobile'],
-        link: 'https://github.com/...',
-        longDescription: 'Aplicação mobile para consultar previsão meteorológica com dados em tempo real.',
-        features: ['Previsão 7 dias', 'Localização automática', 'Alertas meteorológicos', 'Favoritos'],
-        technologies: ['React Native', 'Weather API', 'Geolocation'],
-        date: '2025-01'
-    },
-    {
-        id: 5,
-        title: 'Dashboard Analytics',
-        category: 'web',
-        description: 'Dashboard com gráficos e estatísticas',
-        image: 'imagens/graficos.png',
-        tags: ['Vue.js', 'Charts', 'API'],
-        link: 'https://github.com/...',
-        longDescription: 'Dashboard interativo para visualização de dados e analytics com gráficos dinâmicos.',
-        features: ['Gráficos interativos', 'Filtros de data', 'Exportar relatórios', 'Tempo real'],
-        technologies: ['HTML5', 'CSS3', 'JavaScript', 'Chart.js', 'API'],
-        date: '2024-10'
-    },
-    {
-        id: 6,
-        title: 'Redesign Logo Empresa',
-        category: 'design',
-        description: 'Redesign de identidade visual corporativa',
-        image: 'imagens/visual_corporativa.png',
-        tags: ['Illustrator', 'Branding', 'Logo'],
-        link: 'https://behance.net/...',
-        longDescription: 'Projeto de redesign completo de identidade visual incluindo logo, cores e tipografia.',
-        features: ['Logo principal', 'Variações', 'Manual de marca', 'Mockups'],
-        technologies: ['Adobe Illustrator', 'Photoshop', 'InDesign'],
-        date: '2024-09'
-    }
+    
 ];
 
 // Variável global para controlar filtro atual
@@ -444,11 +338,13 @@ function updateCounters() {
     const webCount = projects.filter(p => p.category === 'web').length;
     const mobileCount = projects.filter(p => p.category === 'mobile').length;
     const designCount = projects.filter(p => p.category === 'design').length;
+    const presentionCount = projects.filter(p => p.category === 'presention').length;
     
     document.querySelector('[data-category="all"] .count').textContent = allCount;
     document.querySelector('[data-category="web"] .count').textContent = webCount;
     document.querySelector('[data-category="mobile"] .count').textContent = mobileCount;
     document.querySelector('[data-category="design"] .count').textContent = designCount;
+    document.querySelector('[data-category="presention"] .count').textContent = presentionCount;
 }
 
 // Inicializar ao carregar página
@@ -584,12 +480,13 @@ function setupModalListeners() {
         }
     });
     
-    // Fechar modal com tecla Escape}
-        document.addEventListener('keydown', (e) => {
+    // Fechar modal com tecla Escape
+    document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeModal();
         }
     });
+} 
 
 // Adicionar ao DOMContentLoaded
 
@@ -712,6 +609,8 @@ const validationRules = {
 function validateField(fieldName, value) {
     const rules = validationRules[fieldName];
     
+    if (!rules) return { valid: true, message: '' };
+    
     // Required
     if (rules.required && !value.trim()) {
         return {
@@ -753,7 +652,10 @@ function validateField(fieldName, value) {
 
 // Mostrar feedback visual
 function showFieldFeedback(fieldName, isValid, message = '') {
-    const formGroup = document.getElementById(fieldName).closest('.form-group');
+    const field = document.getElementById(fieldName);
+    if (!field) return;
+    
+    const formGroup = field.closest('.form-group');
     const errorElement = formGroup.querySelector('.error-message');
     
     // Remover estados anteriores
@@ -769,35 +671,6 @@ function showFieldFeedback(fieldName, isValid, message = '') {
     }
 }
 
-// ===== EVENT LISTENERS =====
-
-function setupFormValidation() {
-    const form = document.getElementById('contact-form');
-    const fields = ['name', 'email', 'subject', 'message'];
-    
-    // Validar cada campo ao perder foco (blur)
-    fields.forEach(fieldName => {
-        const field = document.getElementById(fieldName);
-        
-        field.addEventListener('blur', () => {
-            const validation = validateField(fieldName, field.value);
-            showFieldFeedback(fieldName, validation.valid, validation.message);
-            updateSubmitButton();
-        });
-        
-        // Validar enquanto escreve (para limpar erros)
-        field.addEventListener('input', () => {
-            // Só valida se já tinha erro
-            const formGroup = field.closest('.form-group');
-            if (formGroup.classList.contains('invalid')) {
-                const validation = validateField(fieldName, field.value);
-                showFieldFeedback(fieldName, validation.valid, validation.message);
-                updateSubmitButton();
-            }
-        });
-    });
-}
-
 // Validar form inteiro
 function validateForm() {
     const fields = ['name', 'email', 'subject', 'message'];
@@ -805,8 +678,9 @@ function validateForm() {
     
     fields.forEach(fieldName => {
         const field = document.getElementById(fieldName);
-        const validation = validateField(fieldName, field.value);
+        if (!field) return;
         
+        const validation = validateField(fieldName, field.value);
         showFieldFeedback(fieldName, validation.valid, validation.message);
         
         if (!validation.valid) {
@@ -820,48 +694,46 @@ function validateForm() {
 // Atualizar estado do botão submit
 function updateSubmitButton() {
     const submitBtn = document.getElementById('submit-btn');
-    const isValid = validateForm();
+    if (!submitBtn) return;
     
+    const isValid = validateForm();
     submitBtn.disabled = !isValid;
 }
 
-// Inicializar
-
-
-// ===== CONTADOR DE CARACTERES =====
-
-function setupCharCounter() {
-    const messageField = document.getElementById('message');
-    const charCount = document.getElementById('char-count');
-    const counter = document.querySelector('.char-counter');
-    const maxLength = 500;
+function setupFormValidation() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
     
-    messageField.addEventListener('input', () => {
-        const length = messageField.value.length;
-        charCount.textContent = length;
+    const fields = ['name', 'email', 'subject', 'message'];
+    
+    // Validar cada campo ao perder foco (blur)
+    fields.forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        if (!field) return;
         
-        // Remover classes anteriores
-        counter.classList.remove('warning', 'error');
+        field.addEventListener('blur', () => {
+            const validation = validateField(fieldName, field.value);
+            showFieldFeedback(fieldName, validation.valid, validation.message);
+            updateSubmitButton();
+        });
         
-        // Adicionar warning quando >400 caracteres
-        if (length > 400 && length <= maxLength) {
-            counter.classList.add('warning');
-        }
-        
-        // Adicionar error quando >maxLength
-        if (length > maxLength) {
-            counter.classList.add('error');
-        }
+        // Validar enquanto escreve (para limpar erros)
+        field.addEventListener('input', () => {
+            const formGroup = field.closest('.form-group');
+            if (formGroup.classList.contains('invalid')) {
+                const validation = validateField(fieldName, field.value);
+                showFieldFeedback(fieldName, validation.valid, validation.message);
+                updateSubmitButton();
+            }
+        });
     });
 }
-
-// Adicionar ao DOMContentLoaded
-
 
 // ===== TOAST NOTIFICATIONS =====
 
 function showToast(type, title, message, duration = 3000) {
     const container = document.getElementById('toast-container');
+    if (!container) return;
    
     // Ícones por tipo
     const icons = {
@@ -874,16 +746,14 @@ function showToast(type, title, message, duration = 3000) {
     // Criar toast
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.innerHTML =
     toast.innerHTML = `
-    <div class="toast-icon">${icons[type]}</div>
-    <div class="toast-content">
-        <strong>${title}</strong>
-        <p>${message}</p>
-    </div>
-    <span class="toast-close">×</span>`;
+        <div class="toast-icon">${icons[type]}</div>
+        <div class="toast-content">
+            <strong>${title}</strong>
+            <p>${message}</p>
+        </div>
+        <span class="toast-close">×</span>`;
  
-   
     // Adicionar ao container
     container.appendChild(toast);
    
@@ -905,58 +775,6 @@ function showToast(type, title, message, duration = 3000) {
     console.log(`Toast ${type}: ${title}`);
 }
 
-// ===== PROCESSAR SUBMIT =====
-
-function setupFormSubmit() {
-    const form = document.getElementById('contact-form');
-    const submitBtn = document.getElementById('submit-btn');
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        if (!validateForm()) {
-            showToast('error', 'Erro!', 'Por favor, corrige os erros');
-            return;
-        }
-        
-        submitBtn.disabled = true;
-        submitBtn.classList.add('loading');
-        
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Guardar mensagem
-            const formData = new FormData(form);
-            saveMessage(formData);
-            
-            showToast(
-                'success',
-                'Mensagem Enviada!',
-                'Obrigado pelo contacto. Respondo em breve!'
-            );
-            
-            form.reset();
-            
-            // Clear validation feedback
-            const fields = ['name', 'email', 'subject', 'message'];
-            fields.forEach(fieldName => {
-                const field = document.getElementById(fieldName);
-                const formGroup = field.closest('.form-group');
-                formGroup.classList.remove('valid', 'invalid');
-            });
-            
-        } catch (error) {
-            showToast('error', 'Erro ao Enviar', 'Tenta novamente.');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('loading');
-        }
-    });
-}
-
-// Adicionar ao DOMContentLoaded
-
-
 // ===== GUARDAR MENSAGENS =====
 
 function saveMessage(formData) {
@@ -975,7 +793,7 @@ function saveMessage(formData) {
     };
     
     // Adicionar ao array
-    messages.unshift(message); // unshift adiciona ao início
+    messages.unshift(message);
     
     // Guardar de volta
     localStorage.setItem('contactMessages', JSON.stringify(messages));
@@ -984,7 +802,102 @@ function saveMessage(formData) {
     return message;
 }
 
+// ===== PROCESSAR SUBMIT =====
 
+function setupFormSubmit() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    
+    const submitBtn = document.getElementById('submit-btn');
+    if (!submitBtn) return;
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Validar form
+        if (!validateForm()) {
+            showToast('error', 'Erro!', 'Por favor, corrige os erros');
+            return;
+        }
+        
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        
+        try {
+            // Simular delay de envio
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Guardar mensagem
+            const formData = new FormData(form);
+            saveMessage(formData);
+            
+            // Mostrar sucesso
+            showToast(
+                'success',
+                'Mensagem Enviada!',
+                'Obrigado pelo contacto. Respondo em breve!'
+            );
+            
+            // Atualizar admin panel
+            loadMessages();
+            
+            // Limpar form
+            form.reset();
+            
+            // Remover validação visual
+            const fields = ['name', 'email', 'subject', 'message'];
+            fields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                if (field) {
+                    const formGroup = field.closest('.form-group');
+                    formGroup.classList.remove('valid', 'invalid');
+                }
+            });
+            
+            // Reset contador
+            const charCount = document.getElementById('char-count');
+            if (charCount) charCount.textContent = '0';
+            
+        } catch (error) {
+            showToast('error', 'Erro ao Enviar', 'Tenta novamente.');
+            console.error('Erro:', error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+        }
+    });
+}
+
+// ===== CONTADOR DE CARACTERES =====
+
+function setupCharCounter() {
+    const messageField = document.getElementById('message');
+    if (!messageField) return;
+    
+    const charCount = document.getElementById('char-count');
+    const counter = document.querySelector('.char-counter');
+    const maxLength = 500;
+    
+    messageField.addEventListener('input', () => {
+        const length = messageField.value.length;
+        if (charCount) charCount.textContent = length;
+        
+        // Remover classes anteriores
+        if (counter) {
+            counter.classList.remove('warning', 'error');
+            
+            // Adicionar warning quando >400 caracteres
+            if (length > 400 && length <= maxLength) {
+                counter.classList.add('warning');
+            }
+            
+            // Adicionar error quando >maxLength
+            if (length > maxLength) {
+                counter.classList.add('error');
+            }
+        }
+    });
+}
 
 // ===== ADMIN VIEW =====
 
@@ -995,70 +908,51 @@ function loadMessages() {
     const totalMessages = document.getElementById('total-messages');
     const unreadBadge = document.getElementById('unread-badge');
     
+    if (!messagesList) return;
+    
     // Atualizar contador
-    totalMessages.textContent = messages.length;
+    if (totalMessages) totalMessages.textContent = messages.length;
     
     // Contar não lidas
     const unreadCount = messages.filter(m => !m.read).length;
-    if (unreadCount > 0) {
-        unreadBadge.textContent = unreadCount;
-        unreadBadge.style.display = 'flex';
-    } else {
-        unreadBadge.style.display = 'none';
+    if (unreadBadge) {
+        if (unreadCount > 0) {
+            unreadBadge.textContent = unreadCount;
+            unreadBadge.style.display = 'flex';
+        } else {
+            unreadBadge.style.display = 'none';
+        }
     }
     
     // Mostrar/esconder mensagens
     if (messages.length === 0) {
         messagesList.style.display = 'none';
-        noMessages.style.display = 'block';
+        if (noMessages) noMessages.style.display = 'block';
         return;
     }
     
     messagesList.style.display = 'flex';
-    noMessages.style.display = 'none';
+    if (noMessages) noMessages.style.display = 'none';
     
     // Renderizar mensagens
     messagesList.innerHTML = messages.map(msg => `
-        
-
-            
-
-                
-
-                    
-${msg.name}
-
-                    
-${msg.email}
-
-
-                
-
-                
-
-                    
-${new Date(msg.date).toLocaleDateString('pt-PT')}
-
-                    
-${new Date(msg.date).toLocaleTimeString('pt-PT')}
-
-                
-
-            
-
-            ${msg.subject}
-            
-${msg.message}
-
-            
-
-                
-                    🗑️ Eliminar
-                
-            
-
-        
-
+        <div class="message-card ${msg.read ? '' : 'unread'}">
+            <div class="message-header">
+                <div class="message-sender">
+                    <h4>${msg.name}</h4>
+                    <p>${msg.email}</p>
+                </div>
+                <div class="message-meta">
+                    <p>${new Date(msg.date).toLocaleDateString('pt-PT')}</p>
+                    <p>${new Date(msg.date).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}</p>
+                </div>
+            </div>
+            <div class="message-subject">${msg.subject}</div>
+            <div class="message-body">${msg.message}</div>
+            <div class="message-actions">
+                <button class="btn-delete" onclick="deleteMessage(${msg.id})">🗑️ Eliminar</button>
+            </div>
+        </div>
     `).join('');
 }
 
@@ -1085,6 +979,9 @@ function clearAllMessages() {
 function setupAdminToggle() {
     const toggleBtn = document.getElementById('toggle-admin');
     const adminSection = document.getElementById('admin-messages');
+    
+    if (!toggleBtn || !adminSection) return;
+    
     let isVisible = false;
     
     toggleBtn.addEventListener('click', () => {
@@ -1099,6 +996,39 @@ function setupAdminToggle() {
     });
 }
 
-// Limpar todas
-document.getElementById('clear-messages')?.addEventListener('click', clearAllMessages);
-}
+// ===== CONSOLIDATED DOM CONTENT LOADED =====
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Clock
+    loadClockFormat();
+    startClock();
+    
+    // Visit Counter
+    initVisitCounter();
+
+    // Theme
+    loadSavedTheme();
+    
+    // Projects
+    renderProjects(projects);
+    setupFilterListeners();
+    setupModalListeners();
+    setupSearchListener();
+    
+    // Contact Form
+    setupFormValidation();
+    setupCharCounter();
+    setupFormSubmit();
+    
+    // Messages & Admin
+    setupAdminToggle();
+    loadMessages();
+    
+    // Clear messages button
+    const clearMessagesBtn = document.getElementById('clear-messages');
+    if (clearMessagesBtn) {
+        clearMessagesBtn.addEventListener('click', clearAllMessages);
+    }
+
+    console.log('✅ Portfolio inicializado com sucesso!');
+});
